@@ -1,4 +1,4 @@
-package com.example.employee.exception;
+package com.example.employee.shared.exception;
 
 import com.example.employee.model.dto.response.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;

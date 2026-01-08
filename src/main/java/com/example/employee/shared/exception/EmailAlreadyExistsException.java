@@ -1,4 +1,4 @@
-package com.example.employee.exception;
+package com.example.employee.shared.exception;
 
 public class EmailAlreadyExistsException extends RuntimeException {
 

@@ -1,0 +1,28 @@
+package com.example.employee.controller;
+
+import com.example.employee.model.dto.request.DepartmentRequest;
+import com.example.employee.model.dto.response.DepartmentResponse;
+import com.example.employee.service.DepartmentService;
+import com.example.employee.shared.controller.BaseController;
+import com.example.employee.shared.service.BaseCrudService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("api/v1/department")
+public class DepartmentController
+        extends BaseController<UUID, DepartmentRequest, DepartmentResponse> {
+
+    private final DepartmentService service;
+
+    public DepartmentController(DepartmentService service) {
+        this.service = service;
+    }
+
+    @Override
+    protected BaseCrudService<?, UUID, DepartmentRequest, DepartmentResponse> getService() {
+        return service;
+    }
+}
