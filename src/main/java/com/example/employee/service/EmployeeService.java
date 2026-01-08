@@ -22,7 +22,7 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
 
     public EmployeeService(EmployeeRepository employeeRepository,
-                           DepartmentRepository departmentRepository ,
+                           DepartmentRepository departmentRepository,
                            EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.departmentRepository = departmentRepository;
@@ -35,7 +35,7 @@ public class EmployeeService {
         }
 
         departmentRepository.findById(employeeRequest.getDepartmentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Department with Id not Found : "  ,employeeRequest.getDepartmentId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Department with Id not Found : ", employeeRequest.getDepartmentId()));
 
 
         Employee employee = employeeMapper.employeeRequestToEmployeeEntity(employeeRequest);
@@ -45,13 +45,13 @@ public class EmployeeService {
     }
 
     public EmployeeResponse getEmployeeById(UUID id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
+        Optional<Employee> employee = employeeRepository.findByIdAndIsDeletedFalse(id);
         return employee.map(employeeMapper::employeeEntityToEmployeeResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("Employee with Id not Found : "  , id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with Id not Found : ", id));
     }
 
     public EmployeeResponse updateEmployee(UUID id, EmployeeRequest employeeRequest) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Employee not found with id: ",
@@ -67,7 +67,7 @@ public class EmployeeService {
     }
 
     public Boolean deleteEmployee(UUID id) {
-        Employee employee = employeeRepository.findById(id)
+        Employee employee = employeeRepository.findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Employee not found with id: ",
