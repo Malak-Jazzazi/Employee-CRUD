@@ -10,10 +10,10 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -49,4 +49,7 @@ public class EmployeeRequest {
     @NotNull(message = "Salary is required")
     @Positive(message = "Salary must be greater than 0")
     private BigDecimal salary;
+
+    @NotNull(message = "Department Id is required")
+    private UUID departmentId;
 }

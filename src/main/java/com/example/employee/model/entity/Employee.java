@@ -47,6 +47,13 @@ Employee {
 
     private BigDecimal salary;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "department_id",
+            nullable = false
+    )
+    private Department department;
+
     private Boolean isDeleted;
 
     private LocalDateTime createdAt;
