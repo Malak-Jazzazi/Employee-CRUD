@@ -55,7 +55,7 @@ public class EmployeeService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
                                 "Employee not found with id: ",
-                                UUID.fromString(id.toString())
+                                id
                         )
                 );
 
@@ -63,6 +63,21 @@ public class EmployeeService {
         updatedEmployee.setId(id);
         employeeRepository.save(updatedEmployee);
         return employeeMapper.employeeEntityToEmployeeResponse(updatedEmployee);
+
+    }
+
+    public Boolean deleteEmployee(UUID id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Employee not found with id: ",
+                                id
+                        )
+                );
+
+        employee.setIsDeleted(true);
+        employeeRepository.save(employee);
+        return true;
 
     }
 }

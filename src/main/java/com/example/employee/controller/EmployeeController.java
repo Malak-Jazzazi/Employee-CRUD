@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,5 +36,10 @@ public class EmployeeController {
     public EmployeeResponse updateEmployee(@PathVariable UUID id,
                                            @RequestBody @Valid EmployeeRequest employeeRequest) {
         return employeeService.updateEmployee(id , employeeRequest);
+    }
+
+    @DeleteMapping("{id}")
+    public Boolean deleteEmployee(@PathVariable UUID id) {
+        return employeeService.deleteEmployee(id);
     }
 }
