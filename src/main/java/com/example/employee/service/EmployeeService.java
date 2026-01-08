@@ -8,6 +8,7 @@ import com.example.employee.model.dto.response.EmployeeResponse;
 import com.example.employee.model.entity.Employee;
 import com.example.employee.repo.DepartmentRepository;
 import com.example.employee.repo.EmployeeRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -47,5 +48,21 @@ public class EmployeeService {
         Optional<Employee> employee = employeeRepository.findById(id);
         return employee.map(employeeMapper::employeeEntityToEmployeeResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee with Id not Found : "  , id));
+    }
+
+    public EmployeeResponse updateEmployee(UUID id, EmployeeRequest employeeRequest) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Employee not found with id: ",
+                                UUID.fromString(id.toString())
+                        )
+                );
+
+        Employee updatedEmployee = employeeMapper.employeeRequestToEmployeeEntity(employeeRequest);
+        updatedEmployee.setId(id);
+        employeeRepository.save(updatedEmployee);
+        return employeeMapper.employeeEntityToEmployeeResponse(updatedEmployee);
+
     }
 }

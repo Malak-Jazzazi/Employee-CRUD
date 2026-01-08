@@ -27,7 +27,13 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeResponse getEmployee(@PathVariable UUID id) {
+    public EmployeeResponse getEmployeeById(@PathVariable UUID id) {
         return employeeService.getEmployeeById(id);
+    }
+
+    @PutMapping("{id}")
+    public EmployeeResponse updateEmployee(@PathVariable UUID id,
+                                           @RequestBody @Valid EmployeeRequest employeeRequest) {
+        return employeeService.updateEmployee(id , employeeRequest);
     }
 }
