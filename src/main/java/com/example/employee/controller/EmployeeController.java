@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("api/v1/employee")
 public class EmployeeController {
@@ -21,5 +23,11 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponse addEmployee(@RequestBody @Valid EmployeeRequest employeeRequest) {
         return employeeService.createEmployee(employeeRequest);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployeeResponse getEmployee(@PathVariable UUID id) {
+        return employeeService.getEmployeeById(id);
     }
 }

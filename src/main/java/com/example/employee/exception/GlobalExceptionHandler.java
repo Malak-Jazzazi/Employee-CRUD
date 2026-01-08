@@ -50,4 +50,22 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ValidationErrorResponse> handleResourceNotFound(
+            ResourceNotFoundException ex) {
+
+        Map<String, String> errors = new HashMap<>();
+        errors.put("id", ex.getMessage());
+
+        ValidationErrorResponse response = new ValidationErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Resource not found",
+                errors,
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
 }

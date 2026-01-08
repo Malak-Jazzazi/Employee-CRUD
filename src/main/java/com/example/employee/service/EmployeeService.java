@@ -5,11 +5,13 @@ import com.example.employee.exception.ResourceNotFoundException;
 import com.example.employee.mapper.EmployeeMapper;
 import com.example.employee.model.dto.request.EmployeeRequest;
 import com.example.employee.model.dto.response.EmployeeResponse;
-import com.example.employee.model.entity.Department;
 import com.example.employee.model.entity.Employee;
 import com.example.employee.repo.DepartmentRepository;
 import com.example.employee.repo.EmployeeRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EmployeeService {
@@ -32,12 +34,18 @@ public class EmployeeService {
         }
 
         departmentRepository.findById(employeeRequest.getDepartmentId())
-                .orElseThrow(() -> new ResourceNotFoundException(employeeRequest.getDepartmentId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Department with Id not Found : "  ,employeeRequest.getDepartmentId()));
 
 
         Employee employee = employeeMapper.employeeRequestToEmployeeEntity(employeeRequest);
         employee.setIsDeleted(false);
         employeeRepository.save(employee);
         return employeeMapper.employeeEntityToEmployeeResponse(employee);
+    }
+
+    public EmployeeResponse getEmployeeById(UUID id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        return employee.map(employeeMapper::employeeEntityToEmployeeResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with Id not Found : "  , id));
     }
 }
