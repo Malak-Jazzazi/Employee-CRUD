@@ -11,6 +11,8 @@ import com.example.employee.repo.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -100,5 +102,26 @@ public class EmployeeService {
         employeeRepository.save(employee);
         log.info("Employee soft-deleted successfully with id: {}", id);
         return true;
+    }
+
+    public Page<EmployeeResponse> getAllEmployees(Pageable pageable) {
+        log.debug(
+                "Fetching employees page={}, size={}, sort={}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort()
+        );
+
+        Page<Employee> employeesPage =
+                employeeRepository.findAllByIsDeletedFalse(pageable);
+
+        log.info(
+                "Employees fetched successfully. page={}, size={}, totalElements={}",
+                employeesPage.getNumber(),
+                employeesPage.getSize(),
+                employeesPage.getTotalElements()
+        );
+
+        return employeesPage.map(employeeMapper::employeeEntityToEmployeeResponse);
     }
 }

@@ -4,6 +4,9 @@ import com.example.employee.model.dto.request.EmployeeRequest;
 import com.example.employee.model.dto.response.EmployeeResponse;
 import com.example.employee.service.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +44,12 @@ public class EmployeeController {
     @DeleteMapping("{id}")
     public Boolean deleteEmployee(@PathVariable UUID id) {
         return employeeService.deleteEmployee(id);
+    }
+
+    @GetMapping
+    public Page<EmployeeResponse> getAllEmployees(
+            @PageableDefault(size = 10, sort = "createdAt") Pageable pageable
+    ) {
+        return employeeService.getAllEmployees(pageable);
     }
 }
