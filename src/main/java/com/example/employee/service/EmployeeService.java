@@ -8,11 +8,13 @@ import com.example.employee.model.dto.response.EmployeeResponse;
 import com.example.employee.model.entity.Employee;
 import com.example.employee.repo.DepartmentRepository;
 import com.example.employee.repo.EmployeeRepository;
+import com.example.employee.specification.EmployeeSpecification;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -104,24 +106,27 @@ public class EmployeeService {
         return true;
     }
 
-    public Page<EmployeeResponse> getAllEmployees(Pageable pageable) {
-        log.debug(
-                "Fetching employees page={}, size={}, sort={}",
+    public Page<Employee> searchEmployees(
+            String search,
+            Pageable pageable
+    ) {
+
+        log.info("Searching employees | search='{}' | page={} | size={} | sort={}",
+                search,
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
-                pageable.getSort()
-        );
+                pageable.getSort());
 
-        Page<Employee> employeesPage =
-                employeeRepository.findAllByIsDeletedFalse(pageable);
+        Specification<Employee> spec = Specification
+                .where(EmployeeSpecification.isNotDeleted())
+                .and(EmployeeSpecification.globalSearch(search));
 
-        log.info(
-                "Employees fetched successfully. page={}, size={}, totalElements={}",
-                employeesPage.getNumber(),
-                employeesPage.getSize(),
-                employeesPage.getTotalElements()
-        );
+        Page<Employee> result = employeeRepository.findAll(spec, pageable);
 
-        return employeesPage.map(employeeMapper::employeeEntityToEmployeeResponse);
+        log.info("Search result | totalElements={} | totalPages={}",
+                result.getTotalElements(),
+                result.getTotalPages());
+
+        return result;
     }
 }

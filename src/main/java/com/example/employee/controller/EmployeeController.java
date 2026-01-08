@@ -2,6 +2,7 @@ package com.example.employee.controller;
 
 import com.example.employee.model.dto.request.EmployeeRequest;
 import com.example.employee.model.dto.response.EmployeeResponse;
+import com.example.employee.model.entity.Employee;
 import com.example.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -46,10 +47,10 @@ public class EmployeeController {
         return employeeService.deleteEmployee(id);
     }
 
-    @GetMapping
-    public Page<EmployeeResponse> getAllEmployees(
-            @PageableDefault(size = 10, sort = "createdAt") Pageable pageable
+    @GetMapping()
+    public Page<Employee> searchEmployees(
+            @RequestParam(required = false) String search,
+            Pageable pageable
     ) {
-        return employeeService.getAllEmployees(pageable);
-    }
+        return employeeService.searchEmployees(search, pageable);}
 }
