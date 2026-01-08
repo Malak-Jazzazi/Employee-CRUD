@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -19,8 +21,9 @@ import java.time.LocalDateTime;
 public class
 Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     @Column(nullable = false)
     private String firstName;
@@ -43,6 +46,8 @@ Employee {
     private EmployeeStatus status;
 
     private BigDecimal salary;
+
+    private Boolean isDeleted;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

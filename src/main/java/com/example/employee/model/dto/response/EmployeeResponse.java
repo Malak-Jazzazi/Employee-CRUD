@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeResponse {
 
-    private Long id;
+    private UUID id;
 
     private String firstName;
     private String lastName;
@@ -29,6 +30,8 @@ public class EmployeeResponse {
     private EmployeeStatus status;
 
     private BigDecimal salary;
+
+    private Boolean isDeleted;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
