@@ -6,11 +6,10 @@ import com.example.employee.model.dto.response.DepartmentResponse;
 import com.example.employee.model.entity.Department;
 import com.example.employee.repo.DepartmentRepository;
 import com.example.employee.shared.mapper.BaseMapper;
+import com.example.employee.shared.repo.BaseRepository;
 import com.example.employee.shared.service.BaseCrudService;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,18 +26,13 @@ public class DepartmentService
     }
 
     @Override
-    protected JpaRepository<Department, UUID> getRepository() {
+    protected BaseRepository<Department, UUID> getRepository() {
         return repository;
     }
 
     @Override
     protected BaseMapper<Department, DepartmentRequest, DepartmentResponse> getMapper() {
         return mapper;
-    }
-
-    @Override
-    protected Optional<Department> findActiveById(UUID id) {
-        return repository.findByIdAndIsDeletedFalse(id);
     }
 
     @Override

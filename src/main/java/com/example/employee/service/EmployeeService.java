@@ -9,6 +9,7 @@ import com.example.employee.repo.EmployeeRepository;
 import com.example.employee.shared.exception.EmailAlreadyExistsException;
 import com.example.employee.shared.exception.ResourceNotFoundException;
 import com.example.employee.shared.mapper.BaseMapper;
+import com.example.employee.shared.repo.BaseRepository;
 import com.example.employee.shared.service.BaseCrudService;
 import com.example.employee.specification.EmployeeSpecification;
 import org.slf4j.Logger;
@@ -41,18 +42,13 @@ public class EmployeeService
     }
 
     @Override
-    protected JpaRepository<Employee, UUID> getRepository() {
+    protected BaseRepository<Employee, UUID> getRepository() {
         return employeeRepository;
     }
 
     @Override
     protected BaseMapper<Employee, EmployeeRequest, EmployeeResponse> getMapper() {
         return employeeMapper;
-    }
-
-    @Override
-    protected Optional<Employee> findActiveById(UUID id) {
-        return employeeRepository.findByIdAndIsDeletedFalse(id);
     }
 
     @Override

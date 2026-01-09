@@ -1,13 +1,12 @@
 package com.example.employee.repo;
 
 import com.example.employee.model.entity.Department;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.employee.shared.repo.BaseRepository;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public interface DepartmentRepository extends JpaRepository<Department, UUID> {
-    Optional<Department> findByIdAndIsDeletedFalse(UUID id);
+public interface DepartmentRepository
+        extends BaseRepository<Department, UUID> {
 
     boolean existsByNameIgnoreCase(String name);
 }
