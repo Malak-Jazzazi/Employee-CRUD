@@ -5,13 +5,14 @@ import com.example.employee.model.dto.response.DepartmentResponse;
 import com.example.employee.service.DepartmentService;
 import com.example.employee.shared.controller.BaseController;
 import com.example.employee.shared.service.BaseCrudService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
-
+@SecurityRequirement(name = "bearerAuth")
 @RestController
-@RequestMapping("api/v1/department")
+@RequestMapping("department")
 public class DepartmentController
         extends BaseController<UUID, DepartmentRequest, DepartmentResponse> {
 
