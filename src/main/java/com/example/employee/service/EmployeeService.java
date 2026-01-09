@@ -68,7 +68,7 @@ public class EmployeeService
             throw new EmailAlreadyExistsException(request.getEmail());
         }
 
-        departmentRepository.findById(request.getDepartmentId())
+        departmentRepository.findByIdAndIsDeletedFalse(request.getDepartmentId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Department not found",
                         request.getDepartmentId()
