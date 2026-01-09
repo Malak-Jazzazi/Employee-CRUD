@@ -2,12 +2,10 @@ package com.example.employee.shared.service;
 
 import com.example.employee.shared.exception.ResourceNotFoundException;
 import com.example.employee.shared.mapper.BaseMapper;
+import com.example.employee.shared.model.BaseEntity;
 import com.example.employee.shared.repo.BaseRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public abstract class BaseCrudService<E, ID, Req, Res> {
+public abstract class BaseCrudService<E extends BaseEntity, ID, Req, Res> {
 
     protected abstract BaseRepository<E, ID> getRepository();
     protected abstract BaseMapper<E, Req, Res> getMapper();
@@ -35,9 +33,8 @@ public abstract class BaseCrudService<E, ID, Req, Res> {
         E entity = getRepository().findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found", id));
 
-        softDelete(entity);
+        entity.setIsDeleted(true);
         getRepository().save(entity);
     }
 
-    protected abstract void softDelete(E entity);
 }

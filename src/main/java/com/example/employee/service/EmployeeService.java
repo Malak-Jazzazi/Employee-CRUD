@@ -52,11 +52,6 @@ public class EmployeeService
     }
 
     @Override
-    protected void softDelete(Employee entity) {
-        entity.setIsDeleted(true);
-    }
-
-    @Override
     public EmployeeResponse create(EmployeeRequest request) {
         log.info("Creating employee with email {}", request.getEmail());
 

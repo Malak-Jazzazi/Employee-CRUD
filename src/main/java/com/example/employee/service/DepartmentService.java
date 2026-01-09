@@ -36,11 +36,6 @@ public class DepartmentService
     }
 
     @Override
-    protected void softDelete(Department entity) {
-        entity.setIsDeleted(true);
-    }
-
-    @Override
     public DepartmentResponse create(DepartmentRequest request) {
 
         if (repository.existsByNameIgnoreCase(request.getName())) {
