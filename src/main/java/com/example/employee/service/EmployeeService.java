@@ -12,6 +12,7 @@ import com.example.employee.shared.mapper.BaseMapper;
 import com.example.employee.shared.repo.BaseRepository;
 import com.example.employee.shared.service.BaseCrudService;
 import com.example.employee.specification.EmployeeSpecification;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeService
         extends BaseCrudService<Employee, UUID, EmployeeRequest, EmployeeResponse> {
 
@@ -32,14 +34,6 @@ public class EmployeeService
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final EmployeeMapper employeeMapper;
-
-    public EmployeeService(EmployeeRepository employeeRepository,
-                           DepartmentRepository departmentRepository,
-                           EmployeeMapper employeeMapper) {
-        this.employeeRepository = employeeRepository;
-        this.departmentRepository = departmentRepository;
-        this.employeeMapper = employeeMapper;
-    }
 
     @Override
     protected BaseRepository<Employee, UUID> getRepository() {

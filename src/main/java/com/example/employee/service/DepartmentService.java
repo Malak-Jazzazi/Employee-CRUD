@@ -8,22 +8,18 @@ import com.example.employee.repo.DepartmentRepository;
 import com.example.employee.shared.mapper.BaseMapper;
 import com.example.employee.shared.repo.BaseRepository;
 import com.example.employee.shared.service.BaseCrudService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService
         extends BaseCrudService<Department, UUID, DepartmentRequest, DepartmentResponse> {
 
     private final DepartmentRepository repository;
     private final DepartmentMapper mapper;
-
-    public DepartmentService(DepartmentRepository repository,
-                             DepartmentMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
 
     @Override
     protected BaseRepository<Department, UUID> getRepository() {

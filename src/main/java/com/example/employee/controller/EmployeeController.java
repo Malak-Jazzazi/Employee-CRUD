@@ -6,6 +6,7 @@ import com.example.employee.service.EmployeeService;
 import com.example.employee.shared.controller.BaseController;
 import com.example.employee.shared.service.BaseCrudService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,14 +19,11 @@ import java.util.UUID;
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("employee")
+@RequiredArgsConstructor
 public class EmployeeController
         extends BaseController<UUID, EmployeeRequest, EmployeeResponse> {
 
     private final EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @Override
     protected BaseCrudService<?, UUID, EmployeeRequest, EmployeeResponse> getService() {
